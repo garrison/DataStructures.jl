@@ -25,16 +25,17 @@ type HashDict{K,V,O<:Union(Ordered,Unordered)} <: Associative{K,V}
     if VERSION >= v"0.4.0-dev+980"
         function HashDict(ps::Pair{K,V}...)
             h = HashDict{K,V,O}()
-            sizehint(h, length(ps))
+            sizehint(h, length(ps)+1)
             for p in ps
                 h[p.first] = p.second
             end
             return h
         end
+        HashDict(p::Pair{K,V}) = invoke(HashDict, (Pair{K,V}...), p)
     end
     function HashDict(ks, vs)
         if VERSION >= v"0.4.0-dev+980"
-            Base.warn_once("HashDict(kv,vs) is deprecated, use HashDict(collect(zip(ks,vs))) instead")
+            Base.warn_once("HashDict(kv,vs) is deprecated, use HashDict(zip(ks,vs)) instead")
         end
         n = length(ks)
         h = HashDict{K,V,O}()
@@ -43,7 +44,7 @@ type HashDict{K,V,O<:Union(Ordered,Unordered)} <: Associative{K,V}
         end
         return h
     end
-    function HashDict(kv::AbstractArray{(K,V)})
+    function HashDict(kv)
         h = HashDict{K,V,O}()
         sizehint(h, length(kv))
         for (k,v) in kv
@@ -63,7 +64,7 @@ if VERSION >= v"0.4.0-dev+980"
 end
 
 # TODO: these could be more efficient
-HashDict{K,V,O}(d::HashDict{K,V,O}) = HashDict{K,V,O}(collect(kv))
+HashDict{K,V,O}(d::HashDict{K,V,O}) = HashDict{K,V,O}(collect(d))
 HashDict{K,V}(d::Associative{K,V}) = HashDict{K,V,Unordered}(collect(d))
 
 similar{K,V,O}(d::HashDict{K,V,O}) = HashDict{K,V,O}()

@@ -9,11 +9,11 @@ immutable OrderedSet{T}
     dict::HashDict{T,Nothing,Ordered}
 
     OrderedSet() = new(HashDict{T,Nothing,Ordered}())
-    OrderedSet(x...) = union!(new(HashDict{T,Nothing,Ordered}()), x)
+    OrderedSet(xs) = union!(new(HashDict{T,Nothing,Ordered}()), xs)
 end
 OrderedSet() = OrderedSet{Any}()
-OrderedSet(x...) = OrderedSet{Any}(x...)
-OrderedSet{T}(x::T...) = OrderedSet{T}(x...)
+OrderedSet(xs) = OrderedSet{eltype(xs)}(xs)
+
 
 show(io::IO, s::OrderedSet) = (show(io, typeof(s)); Base.show_comma_array(io, s,'(',')'))
 
