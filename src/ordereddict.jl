@@ -28,10 +28,10 @@ end
 
 OrderedDict() = OrderedDict{Any,Any}()
 OrderedDict(kv::()) = OrderedDict()
-OrderedDict(kv) = ordered_dictwith_eltype(kv, eltype(kv))
+OrderedDict(kv) = ordered_dict_with_eltype(kv, eltype(kv))
 
-ordered_dictwith_eltype{K,V}(kv, ::Type{(K,V)}) = OrderedDict{K,V}(kv)
-ordered_dictwith_eltype(kv, t) = OrderedDict{Any,Any}(kv)
+ordered_dict_with_eltype{K,V}(kv, ::Type{(K,V)}) = OrderedDict{K,V}(kv)
+ordered_dict_with_eltype(kv, t) = OrderedDict{Any,Any}(kv)
 
 if VERSION >= v"0.4.0-dev+980"
     OrderedDict{K,V}(ps::Pair{K,V}...)              = OrderedDict{K,V}(ps...)
@@ -42,7 +42,7 @@ if VERSION >= v"0.4.0-dev+980"
 
     OrderedDict{K,V}(kv::AbstractArray{Pair{K,V}})  = OrderedDict{K,V}(kv)
 
-    ordered_dictwith_eltype{K,V}(kv, ::Type{Pair{K,V}})    = OrderedDict{K,V}(kv)
+    ordered_dict_with_eltype{K,V}(kv, ::Type{Pair{K,V}})    = OrderedDict{K,V}(kv)
 end
 
 copy(d::OrderedDict) = OrderedDict(d)

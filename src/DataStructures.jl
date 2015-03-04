@@ -76,9 +76,12 @@ module DataStructures
     @deprecate queue Queue
     @deprecate add! push!
 
-    @deprecate OrderedSet(a, b...) OrderedSet({a, b...})
+    @deprecate HashDict{K,V}(ks::AbstractArray{K}, vs::AbstractArray{V}) HashDict{K,V,Unordered}(ks,vs)
+    @deprecate HashDict(ks, vs) HashDict{Any,Any,Unordered}(ks, vs)
+
     @deprecate OrderedDict(ks, vs) OrderedDict(zip(ks,vs))
     @deprecate OrderedDict{K,V}(ks::AbstractArray{K}, vs::AbstractArray{V}) OrderedDict{K,V}(zip(ks,vs))
     @deprecate OrderedDict{K,V}(::Type{K},::Type{V}) OrderedDict{K,V}()
 
+    @deprecate OrderedSet(a, b...) OrderedSet({a, b...})
 end
