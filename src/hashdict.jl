@@ -23,9 +23,10 @@ type HashDict{K,V,O<:Union(Ordered,Unordered)} <: Associative{K,V}
         new(zeros(Uint8,n), Array(K,n), Array(V,n), Array(O,n), Array(O,0), 0, 0, identity)
     end
     if VERSION >= v"0.4.0-dev+980"
+        HashDict(p::Pair) = setindex!(HashDict{K,V,O}(), p.second, p.first)
         function HashDict(ps::Pair{K,V}...)
             h = HashDict{K,V,O}()
-            sizehint(h, length(ps)+1)
+            sizehint(h, length(ps))
             for p in ps
                 h[p.first] = p.second
             end
